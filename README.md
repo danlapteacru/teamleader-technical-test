@@ -1,42 +1,66 @@
-# Slim Framework 4 Skeleton Application
+# TeamleaderCRM Coding Test: Problem 1 - Discounts
 
-[![Coverage Status](https://coveralls.io/repos/github/slimphp/Slim-Skeleton/badge.svg?branch=master)](https://coveralls.io/github/slimphp/Slim-Skeleton?branch=master)
+Hello! :wave:
 
-Use this skeleton application to quickly setup and start working on a new Slim Framework 4 application. This application uses the latest Slim 4 with Slim PSR-7 implementation and PHP-DI container implementation. It also uses the Monolog logger.
+The coding test has been completed using [SlimPHP Skeleton](https://github.com/slimphp/Slim-Skeleton) and following DDD principles.
 
-This skeleton application was built for Composer. This makes setting up a new Slim Framework application quick and easy.
+## Task
 
-## Install the Application
+The task description can be found [here](https://github.com/teamleadercrm/coding-test/blob/master/1-discounts.md).
 
-Run this command from the directory in which you want to install your new Slim Framework application. You will require PHP 7.4 or newer.
+## Installation
 
-```bash
-composer create-project slim/slim-skeleton [my-app-name]
-```
+1. Clone the repository to your local machine.
+2. Go to the project directory.
+3. Run `composer install` to install the dependencies.
 
-Replace `[my-app-name]` with the desired directory name for your new application. You'll want to:
+## Usage
 
-* Point your virtual host document root to your new application's `public/` directory.
-* Ensure `logs/` is web writable.
+1. Run `composer start` to start the server.
 
-To run the application in development, you can run these commands 
+Exists multiple ways to test the application but the most common are:
 
-```bash
-cd [my-app-name]
-composer start
-```
+### [Postman](https://www.postman.com/)
+- Import the collection from the `postman` directory.
+- Run the requests in the collection.
+- The collection contains the following requests:
+    - `POST /order/discounts`
+  
+![img.png](postman/order-1.png)
+![img.png](postman/order-2.png)
+![img.png](postman/order-3.png)
+ 
+### cURL
+Run the following commands to see the examples:
+  - [Order 1](https://github.com/teamleadercrm/coding-test/blob/master/example-orders/order1.json):
+      ```bash
+    curl -X POST "http://localhost:8080/order/discounts" -H "Content-Type: application/json" -d '{"id": "1", "customer-id": "1", "items": [{"product-id": "B102", "quantity": "10", "unit-price": "4.99", "total": "49.90"}], "total": "49.90"}'
+      ```
 
-Or you can use `docker-compose` to run the app with `docker`, so you can run these commands:
-```bash
-cd [my-app-name]
-docker-compose up -d
-```
-After that, open `http://localhost:8080` in your browser.
+  - [Order 2](https://github.com/teamleadercrm/coding-test/blob/master/example-orders/order2.json)
+    ```bash
+    curl -X POST "http://localhost:8080/order/discounts" -H "Content-Type: application/json" -d '{"id": "2", "customer-id": "2", "items": [{"product-id": "B102", "quantity": "5", "unit-price": "4.99", "total": "24.95"}], "total": "24.95"}'
+    ```
+  - [Order 3](https://github.com/teamleadercrm/coding-test/blob/master/example-orders/order3.json)
+    ```bash
+    curl -X POST "http://localhost:8080/order/discounts" -H "Content-Type: application/json" -d '{"id": "3", "customer-id": "3", "items": [{"product-id": "A101", "quantity": "2", "unit-price": "9.75", "total": "19.50"}, {"product-id": "A102", "quantity": "1", "unit-price": "49.50", "total": "49.50"}], "total": "69.00"}'
+    ```
 
-Run this command in the application directory to run the test suite
+## API Documentation
 
-```bash
-composer test
-```
+### `POST /order/discounts`
 
-That's it! Now go build something cool.
+Apply discounts to an order. The request body should be in JSON format and include the following fields:
+
+- `id`: The order ID
+- `customer-id`: The customer ID
+- `items`: An array of items, each with the following fields:
+    - `product-id`: The product ID
+    - `quantity`: The quantity of the product
+    - `unit-price`: The unit price of the product
+    - `total`: The total price for the item
+- `total`: The total price for the order
+    
+## Tests
+
+Run `composer test` to run the tests.
