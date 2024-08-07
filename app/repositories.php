@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Application\Services\OrderService;
 use App\Domain\Entities\Category\CategoryRepository;
 use App\Domain\Entities\Customer\CustomerRepository;
 use App\Domain\Entities\Product\ProductRepository;
@@ -27,5 +28,6 @@ return function (ContainerBuilder $containerBuilder) {
                 autowire(ToolsDiscountRule::class),
                 autowire(TotalSpentDiscountRule::class),
             ]),
+        OrderService::class => autowire()
     ]);
 };
