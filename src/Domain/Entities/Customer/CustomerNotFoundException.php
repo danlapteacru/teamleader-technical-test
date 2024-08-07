@@ -1,0 +1,12 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Domain\Entities\Customer;
+
+use App\Domain\DomainException\DomainRecordNotFoundException;
+
+class CustomerNotFoundException extends DomainRecordNotFoundException
+{
+    public $message = 'The customer you requested does not exist.';
+}
