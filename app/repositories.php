@@ -7,6 +7,7 @@ use App\Domain\Entities\Customer\CustomerRepository;
 use App\Domain\Entities\Product\ProductRepository;
 use App\Domain\Services\DiscountService;
 use App\Domain\Services\SwitchesDiscountRule;
+use App\Domain\Services\ToolsDiscountRule;
 use App\Domain\Services\TotalSpentDiscountRule;
 use App\Infrastructure\Persistence\Category\InMemoryCategoryRepository;
 use App\Infrastructure\Persistence\Customer\InMemoryCustomerRepository;
@@ -23,6 +24,7 @@ return function (ContainerBuilder $containerBuilder) {
         DiscountService::class => autowire()
             ->constructor([
                 autowire(SwitchesDiscountRule::class),
+                autowire(ToolsDiscountRule::class),
                 autowire(TotalSpentDiscountRule::class),
             ]),
     ]);
