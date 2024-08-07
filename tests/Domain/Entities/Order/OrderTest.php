@@ -9,6 +9,8 @@ use App\Domain\Entities\Customer\CustomerInvalidSinceDateException;
 use App\Domain\Entities\Order\Order;
 use App\Domain\Entities\OrderItem\OrderItem;
 use App\Domain\Entities\Product\Product;
+use App\Domain\ValueObjects\Discount;
+use App\Domain\ValueObjects\Money;
 use Tests\TestCase;
 
 class OrderTest extends TestCase
@@ -44,6 +46,23 @@ class OrderTest extends TestCase
         $this->assertEquals($customer, $order->getCustomer());
         $this->assertEquals($items, $order->getItems());
         $this->assertEquals($total, $order->getTotal()->getAmount());
+    }
+
+    /**
+     * @dataProvider orderItemProvider
+     * @param int $id
+     * @param Customer $customer
+     * @param array $items
+     * @param float $total
+     */
+    public function testDiscounts(int $id, Customer $customer, array $items, float $total): void
+    {
+        $order = new Order($id, $customer, $items, $total);
+        $discount = new Discount('10% off', (new Money($total))->multiply(0.10));
+        $order->applyDiscount($discount);
+
+        $this->assertEquals($total - ($total * 0.10), $order->getTotal()->getAmount());
+        $this->assertEquals([$discount], $order->getDiscounts());
     }
 
     /**

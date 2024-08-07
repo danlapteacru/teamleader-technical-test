@@ -6,6 +6,7 @@ namespace App\Domain\Entities\Order;
 
 use App\Domain\Entities\Customer\Customer;
 use App\Domain\Entities\OrderItem\OrderItem;
+use App\Domain\ValueObjects\Discount;
 use App\Domain\ValueObjects\Money;
 use JsonSerializable;
 
@@ -30,6 +31,11 @@ class Order implements JsonSerializable
      * @var float The total of the order
      */
     protected float $total;
+
+    /**
+     * @var Discount[] The discounts applied to the order
+     */
+    protected array $discounts = [];
 
     public function __construct(int $id, Customer $customer, array $items, float $total)
     {
@@ -78,6 +84,25 @@ class Order implements JsonSerializable
     public function getTotal(): Money
     {
         return new Money($this->total);
+    }
+
+    /**
+     * Get the discounts applied to the order.
+     * @return Discount[]
+     */
+    public function getDiscounts(): array
+    {
+        return $this->discounts;
+    }
+
+    /**
+     * Apply a discount to the order.
+     * @param Discount $discount
+     */
+    public function applyDiscount(Discount $discount): void
+    {
+        $this->discounts[] = $discount;
+        $this->total -= $discount->getAmount()->getAmount();
     }
 
     #[\ReturnTypeWillChange]
